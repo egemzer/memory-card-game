@@ -1,7 +1,8 @@
+
 /*
  * Create a list that holds all of your cards
  */
-
+var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 
 /*
  * Display the cards on the page
@@ -9,6 +10,21 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ // create and append card html
+ function createCard(card) {
+     $("#deck").append('<li class="card"><i class="fa ${card}"></i></li>');
+     console.log(card);
+ }
+
+ // generate random cards on the deck
+ function generateCards() {
+   // creates two copies of each card, since it's a matching game
+   for (var i = 0; i < 2; i++) {
+     stack = shuffle(stack);
+    stack.forEach(createCard);
+  }
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -21,8 +37,8 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
+    console.log(array);
 }
 
 
@@ -36,3 +52,5 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+generateCards();
