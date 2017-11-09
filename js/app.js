@@ -1,30 +1,30 @@
 
-/*
- * Create a list that holds all of your cards
- */
+// a list that holds all the cards
 var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+//track the number of moves (pair match attempts) player has made
+var moves = 0;
+// Track the cards that are currently turned over
+var openCards = [];
+// Tracks if the game has started or not.
+var gameStarted = false;
 
 /*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+ * Functions that enable game to display the cards on the page
  */
- // create and append card html
+ // adds each card's HTML to the page
  function createCard(card) {
-     $("#deck").append('<li class="card"><i class="fa ${card}"></i></li>');
-     console.log(card);
+     $("#deck").append(`<li class="card animated"><i class="fa ${card}"></i></li>`);
  }
 
- // generate random cards on the deck
- function generateCards() {
+ // generates random arrangement of cards from the deck.
+ function dealCards() {
    // creates two copies of each card, since it's a matching game
    for (var i = 0; i < 2; i++) {
      stack = shuffle(stack);
-    stack.forEach(createCard);
+     //loops through each card and create its HTML
+     stack.forEach(createCard);
   }
 }
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -38,9 +38,100 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
     return array;
-    console.log(array);
+    //console.log(array);
 }
 
+// Disable click of the open cards
+function disableClick() {
+    openCards.forEach(function (card) {
+      card.off('click');
+    });
+}
+
+// card flipping functions
+function flipCard() {
+
+    // start the timer when first card is opened
+    if (gameStarted == false) {
+        gameStarted = true;
+        //timer.start();
+    }
+
+    if (openCards.length === 0) {
+        $(this).toggleClass("show open");
+        openCards.push($(this));
+        disableClick();
+    }
+    else if (openCards.length === 1) {
+        // increment moves
+        updateMoves();
+        $(this).toggleClass("show open");
+        openCards.push($(this));
+    }
+}
+
+// Enable click on the open cards
+function enableClick() {
+    openCards[0].click(toggleCard);
+  }
+// function to clear openCards array
+function removeOpenCards() {
+  openCards = [];
+}
+
+// check openCards array to see if the two cards match
+function checkMatch() {
+  if (openCards[0]==openCards[1]) {
+    //<match>
+    $(this).toggleClass("match");
+    $(this).toggleClass("match");
+    removeOpenCards();
+  }
+  else {
+    //<not match>
+    $(this).toggleClass("show open");
+    $(this).toggleClass("show open");
+    removeOpenCards();
+  }
+  updateMoves();
+}
+
+/*
+ * Star handling functions
+ */
+ // Set start of game with full stars
+ function fullStars() {
+     for (var i = 0; i < 3; i++){
+       $(".stars").append('<li><i class="fa fa-star"></i></li>');
+     }
+ }
+
+// reduces stars by one
+function loseStar() {
+  $(".stars").remove('<li><i class="fa fa-star"></i></li>');
+}
+
+ // updates moves
+function updateMoves() {
+   moves += 1;
+   $('#moves').html(`${moves} Moves`);
+   if (moves == 20) {
+       loseStar();
+   }
+   else if (moves == 12) {
+       loseStar();
+   }
+ return moves;
+}
+
+// game start function
+function playGame() {
+  //full stars at the beginning of the game
+  fullStars();
+  dealCards();
+  $('.card').click(flipCard);
+  $('#moves').html("0 Moves");
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -53,4 +144,5 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-generateCards();
+// start the game
+playGame();
