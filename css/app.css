@@ -29,6 +29,10 @@ body {
     flex-direction: column;
 }
 
+img {
+  max-width: 100%; 
+}
+
 h1 {
     font-family: 'Work Sans';
     font-size: 2.75em;

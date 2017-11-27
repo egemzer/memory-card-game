@@ -1,7 +1,7 @@
 
 // a list that holds all the cards
 // for DEBUGGING: var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt"];
-var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "/img/verily-V.png", "fa-leaf", "fa-bicycle", "fa-bomb"];
 //track the number of moves (pair match attempts) player has made
 var moves = 0;
 // Track the cards that are currently turned over
@@ -72,7 +72,13 @@ function resetTimer() {
  */
  // Takes in a card name and adds each card's HTML to the page.
  function createCard(card) {
+   console.log(card);
+   if (card.includes("fa-")) {
      $("#deck").append(`<li class="card"><i class="fa ${card}"></i></li>`);
+   }
+   else {
+     $("#deck").append(`<li class="card"><img src="${card}"</li>`);
+   }
  }
 
  // generates random arrangement of cards from the deck.
