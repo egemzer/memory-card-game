@@ -1,5 +1,6 @@
 
 // a list that holds all the cards
+// for DEBUGGING: var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt"];
 var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 //track the number of moves (pair match attempts) player has made
 var moves = 0;
@@ -25,9 +26,7 @@ function gameTimer() {
   startTime = new Date().getTime();
   // Update the timer every second
   timer = setInterval(function() {
-
     now = new Date().getTime();
-
     // Find the time elapsed between now and start
     elapsed = now - startTime;
 
@@ -39,7 +38,6 @@ function gameTimer() {
     if (seconds < 10) {
       seconds = "0" + seconds;
     }
-
     currentTime = minutes + ':' + seconds;
 
     // Update clock on game screen and modal
@@ -82,7 +80,7 @@ function resetTimer() {
    // creates two copies of each card, since it's a matching game
    for (var i = 0; i < 2; i++) {
      stack = shuffle(stack);
-     //loops through each card and create its HTML
+     //loops through each card and creates its HTML
      stack.forEach(createCard);
   }
 }
@@ -121,7 +119,6 @@ function flipCard() {
     if (openCards.length === 0) {
         $(this).toggleClass("show open");
         openCards.push($(this));
-        console.log(openCards[0]);
         disableClick();
     }
     else if (openCards.length === 1) {
@@ -142,6 +139,9 @@ function removeOpenCards() {
 
 // check openCards array to see if the two cards match
 function checkMatch() {
+  // increment moves
+  updateMoves();
+
   //match case
   if (openCards[0][0].firstChild.className === openCards[1][0].firstChild.className) {
     openCards[0].addClass("match");
@@ -152,14 +152,11 @@ function checkMatch() {
   }
   //not a match case
   else {
-    console.log("Not a match.");
     openCards[0].toggleClass("show open");
     openCards[1].toggleClass("show open");
     enableClick();
     removeOpenCards();
   }
-  // increment moves
-  updateMoves();
 }
 
 /*
@@ -181,10 +178,10 @@ function loseStar() {
 function updateMoves() {
    moves += 1;
    $('#moves').html(`${moves} Moves`);
-   if (moves === 12 || moves === 18) {
+   if (moves === (2*stack.length) || moves === (2.5*stack.length)) {
        loseStar();
    }
-   else if (moves === 20) {
+   else if (moves === (3*stack.length)) {
      loseStar();
      resetGame();
    }
@@ -194,8 +191,8 @@ function updateMoves() {
 // check whether the game is finished or not
 function checkWin() {
     matchesFound += 1;
-    if (matchesFound == 8) {
-        showResults();
+    if (matchesFound == stack.length) {
+      showResults();
     }
 }
 
@@ -205,7 +202,7 @@ function resetGame() {
     resetTimer();
     gameStarted = false;
     moves = 0;
-    match_found = 0;
+    matchesFound = 0;
     $('#deck').empty();
     $('.stars').empty();
     $('.container')[0].style.display = "";
@@ -224,36 +221,40 @@ function playGame() {
   $('#moves').html("0 Moves");
 }
 
+
 // shows successful result when player reaches the end of the game
 function showResults() {
     $('#success-result').empty();
     stopTimer();
+    //appends to the HTML to create the success modal
     var scoreBoard = `
-        <p class="success"> You did it! Congratulations!</p>
-        <p>
-            <span class="score-titles">Moves:</span>
+        <span class="close">&times;</span>
+        <p class="success-top""> You did it! Congratulations!</p>
+        <p class = "success">
+            <span class="score-titles">Total Moves:</span>
             <span class="score-values">${moves}</span>
-            <span class="timer"><span id="clock"></span>
         </p>
-        <div class="text-center margin-top-2">
-             <div class="star">
-                <i class="fa fa-star fa-3x"></i>
-             </div>
-             <div class="star">
-                <i class="fa ${ (moves > 18) ? "fa-star-o" : "fa-star"}  fa-3x"></i>
-             </div>
-            <div class="star">
-                <i class="fa ${ (moves > 12) ? "fa-star-o" : "fa-star"} fa-3x"></i>
-             </div>
+        <div class="success">
+        <i class="fa fa-star fa-3x"></i>
+        <i class="fa ${ (moves > (2.5*stack.length)) ? "fa-star-o" : "fa-star"}  fa-3x"></i>
+        <i class="fa ${ (moves > (2*stack.length)) ? "fa-star-o" : "fa-star"} fa-3x"></i>
         </div>
-        <div class="text-center margin-top-2" id="restart">
-            <i class="fa fa-repeat fa-2x"></i>
-          </div>
+        <div class = "success">
+            <span class="timer"><span id="clock">Your Time: ${currentTime}</span>
+        </div>
+        <div class="success-bottom">
+        <span class="reset">Play Again!</span>
+        </div>
           `;
-    $('.container')[0].style.display = "none";
     $('#success-result')[0].style.display = "block";
     $('#success-result').append($(scoreBoard));
-    $('#restart').click(resetGame);
+    // when the user clicks the reset button, they start afresh
+    $('.reset').click(resetGame);
+    // When the user clicks on (x) in the modal, close the modal
+    $('.close').click(function() {
+      console.log("You clicked to close the modal!");
+      $('#success-result')[0].style.display = "none";
+    });
 }
 
 // start the game

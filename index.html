@@ -7,30 +7,34 @@
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Matching Game</h1>
+            <h1>the Verily matching game</h1>
         </header>
 
+        <!-- Score panel atop the game -->
         <section class="score-panel">
         	<ul class="stars">
         	</ul>
           <span  id="moves"></span>
           <span id="clock"></span>
 
-            <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+          <div class="restart">
+            <i class="fa fa-repeat"></i>
+          </div>
         </section>
 
+        <!-- Game cards -->
         <ul class="deck" id="deck"> </ul>
 
     </div>
-    <!-- Result-->
-    <div class="containerTwo" id="success-result"></div>
+
+    <!-- Result modal-->
+    <div id="success-result" class="modal"></div>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
