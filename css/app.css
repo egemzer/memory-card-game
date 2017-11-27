@@ -29,9 +29,6 @@ body {
     flex-direction: column;
 }
 
-img {
-  max-width: 100%; 
-}
 
 h1 {
     font-family: 'Work Sans';
@@ -60,7 +57,8 @@ h1 {
     height: 125px;
     width: 125px;
     background: #ced7db;
-    font-size: 0;
+    font-size: 0; /* Hides the logos by default */
+    image-resolution: 0;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
@@ -68,6 +66,12 @@ h1 {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card img {
+  max-width: 70%;
+  max-height: 70%;
+  display: none; /* Hides the image by default */
 }
 
 .deck .card.open {
@@ -80,10 +84,22 @@ h1 {
     font-size: 33px;
 }
 
+.deck .card.show img {
+  max-width: 70%;
+  max-height: 70%;
+  display: block; /* shows the image when the card is turned over */
+}
+
 .deck .card.match {
     cursor: default;
     background: #c41061;
     font-size: 33px;
+}
+
+.deck .card.match img {
+  max-width: 70%;
+  max-height: 70%;
+  display: block; /* shows the image when the card is a match */
 }
 
 /* Styles for the Score Panel at the top of the game*/
@@ -124,7 +140,7 @@ h1 {
     left: 50%;
     padding: 20px;
     text-align: center;
-    transform: translate(-50%, -0%); /*shifts the modal*/
+    transform: translate(-50%, -20%); /*shifts the modal*/
     z-index: 1; /* Sit on top */
     width: 40%;
     height: auto;
@@ -145,7 +161,7 @@ h1 {
 }
 
 .success-top {
-  color: #aaa;
+  color: #c41061;
   text-align: center;
   margin-top: 0;
   margin-bottom: 1em;
@@ -168,7 +184,7 @@ h1 {
 }
 
 .reset {
-    color: #aaa;
+    color: #c41061;
     font-weight: bold;
 }
 

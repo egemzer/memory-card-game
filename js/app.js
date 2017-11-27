@@ -1,7 +1,7 @@
 
 // a list that holds all the cards
 // for DEBUGGING: var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt"];
-var stack = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "/img/verily-V.png", "fa-leaf", "fa-bicycle", "fa-bomb"];
+var stack = ["fa-diamond", "img/baseline-logo-vertical.png", "img/debug-logo-white.png", "fa-bolt", "img/verily-V.png", "img/liftware-logo.png", "fa-bicycle", "fa-bomb"];
 //track the number of moves (pair match attempts) player has made
 var moves = 0;
 // Track the cards that are currently turned over
@@ -77,7 +77,7 @@ function resetTimer() {
      $("#deck").append(`<li class="card"><i class="fa ${card}"></i></li>`);
    }
    else {
-     $("#deck").append(`<li class="card"><img src="${card}"</li>`);
+     $("#deck").append(`<li class="card"><i class="${card}"></i><img src="${card}"</li>`);
    }
  }
 
@@ -184,7 +184,7 @@ function loseStar() {
 function updateMoves() {
    moves += 1;
    $('#moves').html(`${moves} Moves`);
-   if (moves === (2*stack.length) || moves === (2.5*stack.length)) {
+   if (moves === (1.5*stack.length) || moves === (2*stack.length)) {
        loseStar();
    }
    else if (moves === (3*stack.length)) {
@@ -198,7 +198,7 @@ function updateMoves() {
 function checkWin() {
     matchesFound += 1;
     if (matchesFound == stack.length) {
-      showResults();
+      setTimeout(showResults, 750); /* gives the user a second to look at the final match before showing the success modal*/
     }
 }
 
@@ -258,7 +258,6 @@ function showResults() {
     $('.reset').click(resetGame);
     // When the user clicks on (x) in the modal, close the modal
     $('.close').click(function() {
-      console.log("You clicked to close the modal!");
       $('#success-result')[0].style.display = "none";
     });
 }
