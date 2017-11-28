@@ -180,16 +180,12 @@ function loseStar() {
   $(".stars").children().last().remove();
 }
 
- // updates moves
+ // updates moves, loses star at specific intervals
 function updateMoves() {
    moves += 1;
    $('#moves').html(`${moves} Moves`);
    if (moves === (1.5*stack.length) || moves === (2*stack.length)) {
        loseStar();
-   }
-   else if (moves === (3*stack.length)) {
-     loseStar();
-     resetGame();
    }
  return moves;
 }
@@ -241,9 +237,9 @@ function showResults() {
             <span class="score-values">${moves}</span>
         </p>
         <div class="success">
+        <i class="fa ${ (moves >= (2*stack.length)) ? "fa-star-o" : "fa-star"}  fa-3x"></i>
+        <i class="fa ${ (moves >= (1.5*stack.length)) ? "fa-star-o" : "fa-star"} fa-3x"></i>
         <i class="fa fa-star fa-3x"></i>
-        <i class="fa ${ (moves > (2.5*stack.length)) ? "fa-star-o" : "fa-star"}  fa-3x"></i>
-        <i class="fa ${ (moves > (2*stack.length)) ? "fa-star-o" : "fa-star"} fa-3x"></i>
         </div>
         <div class = "success">
             <span class="timer"><span id="clock">Your Time: ${currentTime}</span>
