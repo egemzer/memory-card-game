@@ -13,10 +13,10 @@ env = jinja2.Environment(
 
 class MainPage(webapp2.RequestHandler):
 
-def get(self):
-  context = {}
-  tmpl = env.get_template("index.html")
-  self.response.write(tmpl.render(**context))
+  def get(self):
+    context = {}
+    tmpl = env.get_template("index.html")
+    self.response.write(tmpl.render(**context))
 
 
 app = webapp2.WSGIApplication(
